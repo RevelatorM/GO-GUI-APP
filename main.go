@@ -8,10 +8,15 @@ import (
 	"gioui.org/app"
 	"gioui.org/op"
 	"gioui.org/text"
+	"gioui.org/widget"
 	"gioui.org/widget/material"
 )
-//==================================
+
+// ==================================
 func run(window *app.Window) error {
+	var nameInput widget.Editor //textbox
+	nameInput.SingleLine = true
+	nameInput.Submit = true //catches Enter button
 	theme := material.NewTheme()
 	var ops op.Ops
 	for {
@@ -40,7 +45,8 @@ func run(window *app.Window) error {
 		}
 	}
 }
-//==================================
+
+// ==================================
 func main() {
 	go func() {
 		window := new(app.Window) //creating window
@@ -52,5 +58,3 @@ func main() {
 	}()
 	app.Main()
 }
-
-
