@@ -10,19 +10,7 @@ import (
 	"gioui.org/text"
 	"gioui.org/widget/material"
 )
-
-func main() {
-	go func() {
-		window := new(app.Window) //creating window
-		err := run(window)        //calling run
-		if err != nil {           //if run function returns error
-			log.Fatal(err)
-		}
-		os.Exit(0)
-	}()
-	app.Main()
-}
-
+//==================================
 func run(window *app.Window) error {
 	theme := material.NewTheme()
 	var ops op.Ops
@@ -35,10 +23,10 @@ func run(window *app.Window) error {
 			gtx := app.NewContext(&ops, e)
 
 			// Define an large label with an appropriate text:
-			title := material.H1(theme, "Hello, Gio")
+			title := material.H1(theme, "GPU Finder")
 
 			// Change the color of the label.
-			maroon := color.NRGBA{R: 127, G: 0, B: 0, A: 255}
+			maroon := color.NRGBA{R: 100, G: 50, B: 50, A: 255}
 			title.Color = maroon
 
 			// Change the position of the label.
@@ -52,3 +40,17 @@ func run(window *app.Window) error {
 		}
 	}
 }
+//==================================
+func main() {
+	go func() {
+		window := new(app.Window) //creating window
+		err := run(window)        //calling run
+		if err != nil {           //if run function returns error
+			log.Fatal(err)
+		}
+		os.Exit(0)
+	}()
+	app.Main()
+}
+
+
