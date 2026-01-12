@@ -1,11 +1,13 @@
 package main
 
 import (
+	"image"
 	"os"
 
 	"gioui.org/app"
 	"gioui.org/layout"
 	"gioui.org/op"
+	"gioui.org/text"
 	"gioui.org/unit"
 	"gioui.org/widget"
 	"gioui.org/widget/material"
@@ -29,10 +31,15 @@ func main() {
 				layout.Flex{Axis: layout.Vertical}.Layout( //creating Textbox
 					gtx,
 					layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-						e := material.Editor(th, &ed, "Type here")                                         //e := creating var to change Editor`s parameters
-						e.TextSize = unit.Sp(30)                                                           //font size
-						e.Editor.Filter = "0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMONPQRSTUVWXYZ" //filters the chracters that will be entered
-						return e.Layout(gtx)
+						return layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions { //making textbox centered
+							gtx.Constraints = layout.Exact(image.Pt(300, 300))                                 //the size of a textbox
+							e := material.Editor(th, &ed, "Type here")                                         //e := creating var to change Editor`s parameters
+							e.TextSize = unit.Sp(30)                                                           //font size
+							e.Editor.Filter = "0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMONPQRSTUVWXYZ" //filters the chracters that will be entered
+							e.Editor.Alignment = text.Middle                                                   //making text inside centered
+							e.Editor.MaxLen = 20                                                               //max amount of characters
+							return e.Layout(gtx)
+						})
 					}),
 				)
 				//==================================
