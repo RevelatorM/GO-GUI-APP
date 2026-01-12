@@ -25,13 +25,17 @@ func main() {
 				os.Exit(0)
 			case app.FrameEvent: //is being called when the redraw is needed,updates the window
 				gtx := app.NewContext(&ops, e) //e holds the window size f examp. ops is a list of operations
-				layout.Flex{Axis: layout.Vertical}.Layout(
+				//==================================
+				layout.Flex{Axis: layout.Vertical}.Layout( //creating Textbox
 					gtx,
 					layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-						return material.Editor(th, &ed, "Type here").Layout(gtx)
+						e := material.Editor(th, &ed, "Type here")                                         //e := creating var to change Editor`s parameters
+						e.TextSize = unit.Sp(30)                                                           //font size
+						e.Editor.Filter = "0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMONPQRSTUVWXYZ" //filters the chracters that will be entered
+						return e.Layout(gtx)
 					}),
 				)
-
+				//==================================
 				//.Layout(gtx) is renders
 				e.Frame(gtx.Ops) //draws called operations
 			}
