@@ -23,7 +23,7 @@ func main() {
 		var ops op.Ops
 		var ed widget.Editor
 		//==================================
-		var list layout.List
+		var list widget.List //creating list analog of Listbox in C# winforms
 		list.Axis = layout.Vertical
 		//==================================
 		for { //this loops listens to the window`s events
@@ -31,7 +31,7 @@ func main() {
 			case app.DestroyEvent: //same as distructor in C++
 				os.Exit(0)
 			case app.FrameEvent: //is being called when the redraw is needed,updates the window
-				gtx := app.NewContext(&ops, e) //e holds the window size f examp. ops is a list of operations
+				gtx := app.NewContext(&ops, e) //e holds the window size for examp. ops is a list of operations
 				//==================================
 				layout.Flex{Axis: layout.Vertical}.Layout( //creating Textbox
 					gtx,
@@ -48,6 +48,14 @@ func main() {
 					}),
 				)
 				//==================================
+				layout.Flex{}.Layout(gtx,
+					layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
+						return material.List(th, &list).Layout(gtx, 20, func(gtx layout.Context, i int) layout.Dimensions {
+							return material.Body1(th, "Item "+string(rune('A'+i))).Layout(gtx)
+						})
+					}),
+				)
+
 				//.Layout(gtx) is renders
 				e.Frame(gtx.Ops) //draws called operations
 			}
