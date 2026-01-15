@@ -19,8 +19,13 @@ func main() {
 		w.Option(app.Title("App"))                     //giving a title
 		w.Option(app.Size(unit.Dp(500), unit.Dp(500))) //setting up the start size of the window
 		th := material.NewTheme()                      //creating a theme th is a variable
+		//==================================
 		var ops op.Ops
 		var ed widget.Editor
+		//==================================
+		var list layout.List
+		list.Axis = layout.Vertical
+		//==================================
 		for { //this loops listens to the window`s events
 			switch e := w.Event().(type) { //based on the vents types the code will dicide what to do using switch/case
 			case app.DestroyEvent: //same as distructor in C++
