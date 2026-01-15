@@ -24,7 +24,7 @@ func main() {
 		var ed widget.Editor
 		//==================================
 		var list widget.List //creating list analog of Listbox in C# winforms
-		list.Axis = layout.Vertical
+		list.Axis = layout.Horizontal
 		//==================================
 		for { //this loops listens to the window`s events
 			switch e := w.Event().(type) { //based on the vents types the code will dicide what to do using switch/case
@@ -48,6 +48,10 @@ func main() {
 					}),
 				)
 				//==================================
+				//===========Parameters of List must be above code of List "layout.Flex"==================
+				list.ScrollToEnd = true        //auto scroll
+				list.Alignment = layout.Middle //position in middle
+
 				layout.Flex{}.Layout(gtx,
 					layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
 						return material.List(th, &list).Layout(gtx, 20, func(gtx layout.Context, i int) layout.Dimensions {
@@ -55,7 +59,7 @@ func main() {
 						})
 					}),
 				)
-
+				//==================================
 				//.Layout(gtx) is renders
 				e.Frame(gtx.Ops) //draws called operations
 			}
