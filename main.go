@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"image"
 	"os"
 
@@ -24,7 +25,7 @@ func main() {
 		var ed widget.Editor
 		//==================================
 		var list widget.List //creating list analog of Listbox in C# winforms
-		list.Axis = layout.Horizontal
+		list.Axis = layout.Vertical
 		//==================================
 		for { //this loops listens to the window`s events
 			switch e := w.Event().(type) { //based on the vents types the code will dicide what to do using switch/case
@@ -32,12 +33,17 @@ func main() {
 				os.Exit(0)
 			case app.FrameEvent: //is being called when the redraw is needed,updates the window
 				gtx := app.NewContext(&ops, e) //e holds the window size for examp. ops is a list of operations
-				//==================================
-				layout.Flex{Axis: layout.Vertical}.Layout( //creating Textbox
-					gtx,
+
+				// creating on Flex to group the items
+				layout.Flex{
+					Axis:      layout.Vertical,
+					Alignment: layout.Middle, // making everything centered
+				}.Layout(gtx,
+					//==================================
+					//Textbox
 					layout.Rigid(func(gtx layout.Context) layout.Dimensions {
 						return layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions { //making textbox centered
-							gtx.Constraints = layout.Exact(image.Pt(300, 300))                                 //the size of a textbox
+							gtx.Constraints = layout.Exact(image.Pt(gtx.Dp(300), gtx.Dp(100)))
 							e := material.Editor(th, &ed, "Type here")                                         //e := creating var to change Editor`s parameters
 							e.TextSize = unit.Sp(30)                                                           //font size
 							e.Editor.Filter = "0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMONPQRSTUVWXYZ" //filters the chracters that will be entered
@@ -46,24 +52,29 @@ func main() {
 							return e.Layout(gtx)
 						})
 					}),
-				)
-				//==================================
-				//===========Parameters of List must be above code of List "layout.Flex"==================
-				list.ScrollToEnd = true        //auto scroll
-				list.Alignment = layout.Middle //position in middle
 
-				layout.Flex{}.Layout(gtx,
-					layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
+					//==================================
+					//List
+					layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+						//===========Parameters of List must be above code of List "layout.Flex"==================
+						gtx.Constraints.Max.Y = gtx.Dp(200)
+						gtx.Constraints.Max.X = gtx.Dp(300)
+
+						list.ScrollToEnd = true        //auto scroll
+						list.Alignment = layout.Middle //position in middle
+
 						return material.List(th, &list).Layout(gtx, 20, func(gtx layout.Context, i int) layout.Dimensions {
-							return material.Body1(th, "Item "+string(rune('A'+i))).Layout(gtx)
+							return layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+								return material.Body1(th, fmt.Sprintf("Item %c", 'A'+i)).Layout(gtx)
+							})
 						})
 					}),
 				)
+
 				//==================================
 				//.Layout(gtx) is renders
 				e.Frame(gtx.Ops) //draws called operations
 			}
-			//============================
 		}
 	}()
 	app.Main() //keeps the Event loop alive
