@@ -56,10 +56,10 @@ func main() {
 					//==================================
 					//List
 					layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-						//===========Parameters of List must be above code of List "layout.Flex"==================
+						
 						gtx.Constraints.Max.Y = gtx.Dp(200)
 						gtx.Constraints.Max.X = gtx.Dp(300)
-
+					//===========Parameters of List must be above code of List "return"==================
 						list.ScrollToEnd = true        //auto scroll
 						list.Alignment = layout.Middle //position in middle
 
